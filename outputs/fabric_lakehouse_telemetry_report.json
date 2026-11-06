@@ -1,0 +1,19 @@
+{
+  "module": "Microsoft Fabric Lakehouse & Telemetry Analytics Pipeline",
+  "timestamp_utc": "2026-11-06T00:46:20.049469Z",
+  "medallion_layers": [
+    "bronze_raw_json_events",
+    "silver_normalized_telemetry",
+    "gold_powerbi_direct_lake_mart"
+  ],
+  "total_telemetry_records_processed": 85200,
+  "significance_distribution": {
+    "High (>500)": 34414,
+    "Moderate (100-500)": 42385,
+    "Low (<100)": 8401
+  },
+  "schema_completeness_pct": 100.0,
+  "legacy_refresh_latency_minutes": 41.5,
+  "fabric_onelake_refresh_latency_minutes": 19.9,
+  "refresh_latency_reduction_pct": 52.05
+}

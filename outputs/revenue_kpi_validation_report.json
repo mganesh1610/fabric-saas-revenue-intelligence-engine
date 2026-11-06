@@ -1,0 +1,53 @@
+{
+  "pipeline_name": "Microsoft Fabric SaaS Revenue Intelligence & Agentic BI Engine",
+  "timestamp_utc": "2026-11-06T00:46:19.996696Z",
+  "total_governed_star_schema_rows": 130400,
+  "table_counts": {
+    "dim_accounts": 5000,
+    "fct_revenue_mrr_movements": 20000,
+    "fct_product_usage_telemetry": 60400,
+    "dim_crm_opportunities": 45000
+  },
+  "agentic_nl2sql_copilot_benchmark": {
+    "evaluated_natural_language_queries": 250,
+    "exact_semantic_kpi_matches": 249,
+    "kpi_query_accuracy_pct": 99.6,
+    "ungrounded_metric_drift_pct": 0.0,
+    "readout_latency_reduction_pct": 65.0
+  },
+  "segment_kpis": [
+    {
+      "segment": "Enterprise",
+      "ending_arr_usd": 177490572.48,
+      "nrr_pct": 100.97,
+      "grr_pct": 98.11,
+      "seat_utilization_pct": 80.81,
+      "copilot_adoption_pct": 66.85,
+      "consumption_burn_pct": 99.32,
+      "crm_win_rate_pct": 63.13,
+      "pipeline_velocity_usd_per_day": 5850218.2
+    },
+    {
+      "segment": "Mid-Market",
+      "ending_arr_usd": 54265448.88,
+      "nrr_pct": 101.55,
+      "grr_pct": 98.69,
+      "seat_utilization_pct": 83.06,
+      "copilot_adoption_pct": 66.58,
+      "consumption_burn_pct": 102.04,
+      "crm_win_rate_pct": 64.53,
+      "pipeline_velocity_usd_per_day": 2975274.29
+    },
+    {
+      "segment": "Commercial",
+      "ending_arr_usd": 13593526.8,
+      "nrr_pct": 101.7,
+      "grr_pct": 98.75,
+      "seat_utilization_pct": 83.04,
+      "copilot_adoption_pct": 66.58,
+      "consumption_burn_pct": 101.87,
+      "crm_win_rate_pct": 64.24,
+      "pipeline_velocity_usd_per_day": 746096.11
+    }
+  ]
+}

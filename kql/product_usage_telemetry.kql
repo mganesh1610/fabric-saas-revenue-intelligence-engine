@@ -1,0 +1,31 @@
+// =============================================================================
+// Microsoft Fabric Real-Time Intelligence (Eventhouse / Kusto KQL)
+// Product Usage, AI Copilot Seat Adoption & Metered Consumption Anomaly Queries
+// =============================================================================
+
+// 1. Enterprise Account Seat Utilization & Copilot Daily Active Ratio
+ProductUsageTelemetry
+| where EventTimestamp >= ago(30d)
+| summarize
+    ActiveSeats = dcount(UserId),
+    CopilotActiveUsers = dcountif(UserId, FeatureCategory == "AICopilot"),
+    MeteredComputeUnits = sum(ConsumedUnits)
+    by AccountId, Segment, bin(EventTimestamp, 1d)
+| join kind=inner (
+    AccountEntitlements
+    | project AccountId, ProvisionedSeats, CommittedMonthlyUnits
+) on AccountId
+| extend
+    SeatUtilizationPct = round(todouble(ActiveSeats) / ProvisionedSeats * 100.0, 2),
+    CopilotAdoptionPct = round(todouble(CopilotActiveUsers) / ActiveSeats * 100.0, 2)
+| project EventTimestamp, AccountId, Segment, ActiveSeats, ProvisionedSeats, SeatUtilizationPct, CopilotAdoptionPct, MeteredComputeUnits
+
+// 2. Time-Series Consumption Spike & Expansion Lead Detection (series_decompose_anomalies)
+ProductUsageTelemetry
+| where EventTimestamp >= ago(90d)
+| make-series DailyUnits = sum(ConsumedUnits) default=0 on EventTimestamp from ago(90d) to now() step 1d by AccountId
+| extend (Anomalies, AnomalyScore, Baseline) = series_decompose_anomalies(DailyUnits, 1.5, -1, 'linefit')
+| mv-expand EventTimestamp to typeof(datetime), DailyUnits to typeof(long), Anomalies to typeof(int), AnomalyScore to typeof(double)
+| where Anomalies > 0 and AnomalyScore >= 2.0
+| project AccountId, EventTimestamp, DailyUnits, AnomalyScore
+| order by AnomalyScore desc
